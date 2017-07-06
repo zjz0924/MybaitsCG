@@ -45,8 +45,15 @@ public class JspGenerator {
 			JavaModelGeneratorConfiguration modelConfiguration = context.getJavaModelGeneratorConfiguration();
 			// model 的绝对路径目录
 			String modelDirectory = modelConfiguration.getTargetProject() + "/" + modelConfiguration.getTargetPackage().replace(".", "/");
+			// jsp 的绝对路径目录
+			String jspDirctory = modelDirectory.substring(0, modelDirectory.lastIndexOf("/")) + "/jsp";
 			// 获取 table 的配置
 			List<TableConfiguration> tableConfigurations = context.getTableConfigurations();
+			
+			File fDir = new File(jspDirctory);
+			if (!fDir.exists()) {
+				fDir.mkdirs();
+			}
 			
 			for(TableConfiguration tableConfiguration: tableConfigurations){
 				// model 的名称
@@ -59,11 +66,11 @@ public class JspGenerator {
 					List<DomainFiled> filedList = getFiledsInfo(className);
 					
 					// list页面
-					File listFile = new File(modelDirectory, modelName.toLowerCase() + "_list.jsp");
+					File listFile = new File(jspDirctory, modelName.toLowerCase() + "_list.jsp");
 					writeFile(listFile, JspFormattedContent.getListContent(modelName, filedList), "utf-8");
 				
 					// detail页面
-					File detailFile = new File(modelDirectory, modelName.toLowerCase() + "_detail.jsp");
+					File detailFile = new File(jspDirctory, modelName.toLowerCase() + "_detail.jsp");
 					writeFile(detailFile, JspFormattedContent.getDetailContent(modelName, filedList), "utf-8");
 				
 				} catch (Exception e) {

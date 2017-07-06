@@ -46,8 +46,15 @@ public class ControllerGenerator {
 			JavaModelGeneratorConfiguration modelConfiguration = context.getJavaModelGeneratorConfiguration();
 			// model 的绝对路径目录
 			String modelDirectory = modelConfiguration.getTargetProject() + "/" + modelConfiguration.getTargetPackage().replace(".", "/");
+			// controller 的绝对路径目录
+			String webDirctory = modelDirectory.substring(0, modelDirectory.lastIndexOf("/")) + "/web";
 			// 获取 table 的配置
 			List<TableConfiguration> tableConfigurations = context.getTableConfigurations();
+			
+			File fDir = new File(webDirctory);
+			if (!fDir.exists()) {
+				fDir.mkdirs();
+			}
 			
 			for(TableConfiguration tableConfiguration: tableConfigurations){
 				// model 的名称
@@ -59,7 +66,7 @@ public class ControllerGenerator {
 					// model的属性
 					List<DomainFiled> filedList = getFiledsInfo(className);
 					
-					File serviceFile = new File(modelDirectory, modelName + "Controller.java");
+					File serviceFile = new File(webDirctory, modelName + "Controller.java");
 					writeFile(serviceFile, ControllerFormattedContent.getFormattedContent(modelConfiguration.getTargetPackage(), modelName, filedList), "utf-8");
 				
 				} catch (Exception e) {
