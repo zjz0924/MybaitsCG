@@ -74,7 +74,8 @@ public class JspFormattedContent {
 				sb.append("                                        <th>"+ filed.getName() +"</th>\n");
 			}
 		}
-		sb.append("                                    </tr>\n");
+		sb.append("                                        </tr>\n");
+		sb.append("                                    <th>²Ù×÷</th>\n");
 		sb.append("                                </thead>\n\n");
 		sb.append("                                <tbody>\n");
 		sb.append("                                    <c:forEach items=\"${dataList}\" var=\"vo\" varStatus=\"vst\">\n");
